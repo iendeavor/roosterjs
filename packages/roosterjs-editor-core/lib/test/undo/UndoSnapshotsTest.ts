@@ -14,6 +14,10 @@ describe('SnapshotsManager', () => {
         snapshots.addSnapshot('1'); // snapshots: '', ('1')
         expect(snapshots.canMove(-1)).toBeTruthy(); // snapshots: '', ('1')
         expect(snapshots.canMove(1)).toBeFalsy(); // snapshots: '', ('1')
+
+        snapshots.move(-1); // snapshots: (''), '1'
+        expect(snapshots.canMove(-1)).toBeFalsy(); // snapshots: (''), '1'
+        expect(snapshots.canMove(1)).toBeTruthy(); // snapshots: (''), '1'
     });
 
     it('move', () => {
@@ -22,8 +26,9 @@ describe('SnapshotsManager', () => {
 
         snapshots.addSnapshot('1'); // snapshots: '', ('1')
         expect(snapshots.move(-1)).toBe(''); // snapshots: (''), '1'
+        expect(snapshots.move(-1)).toBeNull(); // snapshots: (''), '1' =>null
         expect(snapshots.move(1)).toBe('1'); // snapshots: '', ('1')
-        expect(snapshots.move(1)).toBe(null); // snapshots: '', ('1') =>null
+        expect(snapshots.move(1)).toBeNull(); // snapshots: '', ('1') =>null
     });
 
     it('addSnapshot', () => {
@@ -61,26 +66,5 @@ describe('SnapshotsManager', () => {
         snapshots.clearRedo(); // snapshots: '', ('2')
         expect(snapshots.canMove(-1)).toBeTruthy(); // snapshots: '', ('2')
         expect(snapshots.canMove(1)).toBeFalsy(); // snapshots: '', ('2')
-    });
-
-    it('e2e', () => {
-        expect(snapshots.canMove(-1)).toBeFalsy(); // snapshots: ('')
-        expect(snapshots.canMove(1)).toBeFalsy(); // snapshots: ('')
-
-        snapshots.addSnapshot('1'); // snapshots: '', ('1')
-        expect(snapshots.canMove(-1)).toBeTruthy(); // snapshots: '', ('1')
-        expect(snapshots.canMove(1)).toBeFalsy(); // snapshots: '', ('1')
-
-        // min
-        expect(snapshots.move(-1)).toBe(''); // snapshots: (''), '1'
-        expect(snapshots.move(-1)).toBe(''); // snapshots: (''), '1'
-        expect(snapshots.canMove(-1)).toBeFalsy(); // snapshots: (''), '1'
-        expect(snapshots.canMove(1)).toBeTruthy(); // snapshots: (''), '1'
-
-        // max
-        expect(snapshots.move(1)).toBe(''); // snapshots: '', ('1')
-        expect(snapshots.move(1)).toBe(''); // snapshots: '', ('1')
-        expect(snapshots.canMove(-1)).toBeTruthy(); // snapshots: '', ('1')
-        expect(snapshots.canMove(1)).toBeFalsy(); // snapshots: '', ('1')
     });
 });
