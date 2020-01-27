@@ -62,4 +62,25 @@ describe('SnapshotsManager', () => {
         expect(snapshots.canMove(-1)).toBeTruthy(); // snapshots: '', ('2')
         expect(snapshots.canMove(1)).toBeFalsy(); // snapshots: '', ('2')
     });
+
+    it('e2e', () => {
+        expect(snapshots.canMove(-1)).toBeFalsy(); // snapshots: ('')
+        expect(snapshots.canMove(1)).toBeFalsy(); // snapshots: ('')
+
+        snapshots.addSnapshot('1'); // snapshots: '', ('1')
+        expect(snapshots.canMove(-1)).toBeTruthy(); // snapshots: '', ('1')
+        expect(snapshots.canMove(1)).toBeFalsy(); // snapshots: '', ('1')
+
+        // min
+        expect(snapshots.move(-1)).toBe(''); // snapshots: (''), '1'
+        expect(snapshots.move(-1)).toBe(''); // snapshots: (''), '1'
+        expect(snapshots.canMove(-1)).toBeFalsy(); // snapshots: (''), '1'
+        expect(snapshots.canMove(1)).toBeTruthy(); // snapshots: (''), '1'
+
+        // max
+        expect(snapshots.move(1)).toBe(''); // snapshots: '', ('1')
+        expect(snapshots.move(1)).toBe(''); // snapshots: '', ('1')
+        expect(snapshots.canMove(-1)).toBeTruthy(); // snapshots: '', ('1')
+        expect(snapshots.canMove(1)).toBeFalsy(); // snapshots: '', ('1')
+    });
 });
